@@ -1,5 +1,11 @@
 # notificationhub — Activity Hub Demo (GSoC)
 
+
+
+https://github.com/user-attachments/assets/fad85e18-02ff-4e7e-883f-d2dcdfc314ba
+
+
+
 A compact demo showing an Activity Hub with notifications, mentions and starred messages.
 
 - **Goal:** Improve in-app notifications UX, make the Activity Hub responsive and accessible for GSoC contribution.
