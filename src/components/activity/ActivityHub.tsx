@@ -5,6 +5,7 @@ import { Bell, AtSign, Star } from 'lucide-react';
 import { NotificationsTab } from './NotificationsTab';
 import { MentionsTab } from './MentionsTab';
 import { StarredTab } from './StarredTab';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export function ActivityHub() {
   const { activeActivityTab, setActiveActivityTab, notifications, starredMessages } = useChat();
@@ -53,15 +54,19 @@ export function ActivityHub() {
             </TabsTrigger>
           </TabsList>
         </div>
-        <TabsContent value="notifications" className="flex-1 mt-0 min-h-0">
-          <NotificationsTab />
-        </TabsContent>
-        <TabsContent value="mentions" className="flex-1 mt-0 min-h-0">
-          <MentionsTab />
-        </TabsContent>
-        <TabsContent value="starred" className="flex-1 mt-0 min-h-0">
-          <StarredTab />
-        </TabsContent>
+        <ScrollArea className="flex-1 px-3 sm:px-5 max-h-[28rem] md:max-h-[36rem] mt-0">
+          <div className="min-h-0">
+            <TabsContent value="notifications" className="mt-0 min-h-0">
+              <NotificationsTab />
+            </TabsContent>
+            <TabsContent value="mentions" className="mt-0 min-h-0">
+              <MentionsTab />
+            </TabsContent>
+            <TabsContent value="starred" className="mt-0 min-h-0">
+              <StarredTab />
+            </TabsContent>
+          </div>
+        </ScrollArea>
       </Tabs>
     </div>
   );

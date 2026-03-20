@@ -24,24 +24,24 @@ export function NotificationsTab() {
 
   return (
     <div className="flex-1 flex flex-col min-h-0">
-      <div className="flex items-center justify-between px-5 py-3">
+      <div className="flex items-center justify-between px-3 sm:px-5 py-3">
         <span className="text-xs text-muted-foreground">{notifications.length} notifications</span>
         <Button variant="ghost" size="sm" className="text-xs text-destructive hover:text-destructive" onClick={clearAllNotifications}>
           <Trash2 className="h-3.5 w-3.5 mr-1" /> Clear All
         </Button>
       </div>
-      <ScrollArea className="flex-1 px-5">
+      <ScrollArea className="flex-1 px-3 sm:px-5 max-h-[28rem] md:max-h-[36rem]">
         <div className="space-y-1 pb-4">
           {notifications.map(n => (
             <div
               key={n.id}
               className={cn(
-                'flex items-start gap-3 p-3 rounded-lg transition-colors cursor-pointer hover:bg-muted/60 group',
+                'flex items-start gap-3 p-2 sm:p-3 rounded-lg transition-colors cursor-pointer hover:bg-muted/60 group',
                 !n.isRead && 'bg-primary/5 border-l-2 border-l-primary'
               )}
               onClick={() => setActiveChannelId(n.channelId)}
             >
-              <Avatar className="h-8 w-8 shrink-0 mt-0.5">
+              <Avatar className="h-7 w-7 sm:h-8 sm:w-8 shrink-0 mt-0.5">
                 <AvatarFallback className="text-[10px] bg-primary text-primary-foreground">
                   {getInitials(n.senderName)}
                 </AvatarFallback>

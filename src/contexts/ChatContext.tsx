@@ -5,6 +5,7 @@ import {
   notifications as initialNotifications,
   starredMessages as initialStarred,
   currentUser,
+  users,
   type Channel,
   type Message,
   type Notification,
@@ -24,6 +25,10 @@ interface ChatContextType {
   setActiveView: (view: 'chat' | 'activity-hub') => void;
   setActiveActivityTab: (tab: 'notifications' | 'mentions' | 'starred') => void;
   sendMessage: (content: string) => void;
+  composerText: string;
+  setComposerText: (text: string) => void;
+  insertMention: (username: string) => void;
+  registerComposerFocus: (fn: () => void) => void;
   toggleStarMessage: (messageId: string) => void;
   deleteMessage: (messageId: string) => void;
   removeNotification: (notificationId: string) => void;
@@ -42,6 +47,9 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const [activeChannelId, setActiveChannelId] = useState<string | null>('c1');
   const [activeView, setActiveView] = useState<'chat' | 'activity-hub'>('chat');
   const [activeActivityTab, setActiveActivityTab] = useState<'notifications' | 'mentions' | 'starred'>('notifications');
+  const [composerText, setComposerText] = useState('');
+  // focus function registered by MessageComposer to allow other components to focus it
+  const focusRef = React.useRef<() => void>(() => {});
 
   const sendMessage = useCallback((content: string) => {
     if (!activeChannelId || !content.trim()) return;
@@ -52,8 +60,58 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       content: content.trim(),
       timestamp: new Date().toISOString(),
     };
+    // detect @mentions in the message (e.g. @username)
+    const mentionRegex = /@([a-zA-Z0-9._-]+)/g;
+    const mentions: string[] = [];
+    let match;
+    while ((match = mentionRegex.exec(content)) !== null) {
+      const username = match[1];
+      const user = users.find(u => u.username === username);
+      if (user && !mentions.includes(user.id)) mentions.push(user.id);
+    }
+    if (mentions.length) {
+      newMsg.mentions = mentions;
+    }
+
     setMessages(prev => [...prev, newMsg]);
-  }, [activeChannelId]);
+    // clear composer text when sending
+    setComposerText('');
+
+    // create mention notifications for each mentioned user
+    if (mentions.length) {
+      const channel = channels.find(c => c.id === activeChannelId);
+      const now = new Date().toISOString();
+      const newNotifications: Notification[] = mentions.map((userId, i) => {
+        const user = getUserById(userId);
+        return {
+          id: `n${Date.now()}${i}`,
+          type: 'mention',
+          channelId: activeChannelId,
+          channelName: channel?.name || '',
+          senderId: currentUser.id,
+          senderName: currentUser.displayName,
+          messagePreview: content.trim().slice(0, 120),
+          timestamp: now,
+          isRead: false,
+        };
+      });
+      setNotifications(prev => [...prev, ...newNotifications]);
+    }
+  }, [activeChannelId, channels]);
+
+  const registerComposerFocus = useCallback((fn: () => void) => {
+    focusRef.current = fn;
+  }, []);
+
+  const insertMention = useCallback((username: string) => {
+    if (!username) return;
+    setComposerText(prev => {
+      const sep = prev === '' || prev.endsWith(' ') ? '' : ' ';
+      return `${prev}${sep}@${username} `;
+    });
+    // focus the composer if available
+    try { focusRef.current(); } catch (e) { /* ignore */ }
+  }, []);
 
   const toggleStarMessage = useCallback((messageId: string) => {
     const existing = starred.find(s => s.messageId === messageId);
@@ -123,6 +181,10 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       setActiveView,
       setActiveActivityTab,
       sendMessage,
+      composerText,
+      setComposerText,
+      insertMention,
+      registerComposerFocus,
       toggleStarMessage,
       deleteMessage,
       removeNotification,

@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 export function MessageList() {
-  const { messages, activeChannelId, channels, toggleStarMessage, deleteMessage, starredMessages } = useChat();
+  const { messages, activeChannelId, channels, toggleStarMessage, deleteMessage, starredMessages, insertMention } = useChat();
   const channelMessages = messages.filter(m => m.channelId === activeChannelId);
   const channel = channels.find(c => c.id === activeChannelId);
 
@@ -60,7 +60,16 @@ export function MessageList() {
                         {getInitials(sender.displayName)}
                       </AvatarFallback>
                     </Avatar>
-                    <span className="font-semibold text-sm text-foreground">{sender.displayName}</span>
+                    <div className="flex items-baseline gap-2">
+                      <span
+                        className="font-semibold text-sm text-foreground cursor-pointer hover:underline"
+                        onClick={() => insertMention(sender.username)}
+                        title={`Mention ${sender.displayName}`}
+                      >
+                        {sender.displayName}
+                      </span>
+                      <span className="text-xs text-muted-foreground">{sender.username}</span>
+                    </div>
                     <span className="text-[11px] text-muted-foreground">{formatTime(msg.timestamp)}</span>
                     {isStarred && <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />}
                   </div>

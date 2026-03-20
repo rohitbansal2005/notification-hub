@@ -1,3 +1,3 @@
-# Welcome to your Lovable project
+# Welcome to Notification Hub
 
 TODO: Document your project here

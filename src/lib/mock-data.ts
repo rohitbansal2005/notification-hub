@@ -81,7 +81,7 @@ export const channels: Channel[] = [
 
 export const messages: Message[] = [
   // general
-  { id: 'm1', channelId: 'c1', senderId: 'u2', content: 'Hey everyone! Welcome to the Rocket.Chat Activity Hub project 🚀', timestamp: '2024-03-20T09:00:00Z' },
+  { id: 'm1', channelId: 'c1', senderId: 'u2', content: 'Hey everyone! Welcome to the notificationhub Activity Hub project 🚀', timestamp: '2024-03-20T09:00:00Z' },
   { id: 'm2', channelId: 'c1', senderId: 'u4', content: 'Excited to be here! Looking forward to contributing.', timestamp: '2024-03-20T09:05:00Z' },
   { id: 'm3', channelId: 'c1', senderId: 'u3', content: 'Welcome @sarah.chen! Feel free to ask any questions.', timestamp: '2024-03-20T09:10:00Z', mentions: ['u4'] },
   { id: 'm4', channelId: 'c1', senderId: 'u1', content: 'Thanks everyone! Really pumped about the Activity Hub feature.', timestamp: '2024-03-20T09:15:00Z' },
@@ -125,7 +125,7 @@ export const starredMessages: StarredMessage[] = [
   { id: 's1', messageId: 'm7', channelId: 'c2', channelName: 'gsoc-2024', senderId: 'u2', senderName: 'Pierre Lehnen', content: 'GSoC 2024 proposals are due next week. Make sure your PRs are up to date.', timestamp: '2024-03-20T08:00:00Z', starredAt: '2024-03-20T08:05:00Z' },
   { id: 's2', messageId: 'm10', channelId: 'c2', channelName: 'gsoc-2024', senderId: 'u3', senderName: 'Milton Rucks', content: '@you Great progress! The notification tab looks solid. Let\'s review the UX together.', timestamp: '2024-03-20T09:00:00Z', starredAt: '2024-03-20T09:05:00Z' },
   { id: 's3', messageId: 'm15', channelId: 'c3', channelName: 'activity-hub', senderId: 'u3', senderName: 'Milton Rucks', content: 'Remember to handle edge cases for cleared notifications.', timestamp: '2024-03-20T08:00:00Z', starredAt: '2024-03-20T08:10:00Z' },
-  { id: 's4', messageId: 'm1', channelId: 'c1', channelName: 'general', senderId: 'u2', senderName: 'Pierre Lehnen', content: 'Hey everyone! Welcome to the Rocket.Chat Activity Hub project 🚀', timestamp: '2024-03-20T09:00:00Z', starredAt: '2024-03-20T09:02:00Z' },
+  { id: 's4', messageId: 'm1', channelId: 'c1', channelName: 'general', senderId: 'u2', senderName: 'Pierre Lehnen', content: 'Hey everyone! Welcome to the notificationhub Activity Hub project 🚀', timestamp: '2024-03-20T09:00:00Z', starredAt: '2024-03-20T09:02:00Z' },
 ];
 
 export function getUserById(id: string): User | undefined {

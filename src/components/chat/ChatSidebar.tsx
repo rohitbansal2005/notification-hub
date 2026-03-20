@@ -1,4 +1,6 @@
-import { Hash, Lock, MessageCircle, Bell, ChevronDown, Plus, Search } from 'lucide-react';
+import { Hash, Lock, MessageCircle, Bell, ChevronDown, Plus, Search, Menu } from 'lucide-react';
+import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { useChat } from '@/contexts/ChatContext';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -12,6 +14,8 @@ import { useState } from 'react';
 export function ChatSidebar() {
   const { channels, activeChannelId, activeView, setActiveChannelId, setActiveView, unreadNotificationCount } = useChat();
   const [search, setSearch] = useState('');
+  const isMobile = useIsMobile();
+  const [openMobile, setOpenMobile] = useState(false);
 
   const channelList = channels.filter(c => c.type === 'channel');
   const dmList = channels.filter(c => c.type === 'dm');
@@ -19,7 +23,7 @@ export function ChatSidebar() {
   const filtered = (list: typeof channels) =>
     search ? list.filter(c => c.name.toLowerCase().includes(search.toLowerCase())) : list;
 
-  return (
+  const SidebarContent = (
     <div className="w-64 h-full flex flex-col" style={{ background: 'hsl(var(--sidebar-bg))', color: 'hsl(var(--sidebar-fg))' }}>
       {/* Header */}
       <div className="p-4 border-b" style={{ borderColor: 'hsl(var(--sidebar-border))' }}>
@@ -28,7 +32,7 @@ export function ChatSidebar() {
             <span className="text-white">RC</span>
           </div>
           <div className="flex-1 min-w-0">
-            <h1 className="text-sm font-semibold text-white truncate">Rocket.Chat</h1>
+            <h1 className="text-sm font-semibold text-white truncate">notificationhub</h1>
             <p className="text-xs" style={{ color: 'hsl(var(--sidebar-muted))' }}>Activity Hub Demo</p>
           </div>
         </div>
@@ -167,4 +171,25 @@ export function ChatSidebar() {
       </div>
     </div>
   );
+
+  if (isMobile) {
+    return (
+      <>
+        <button
+          aria-label="Open sidebar"
+          className="fixed top-3 left-3 z-50 inline-flex items-center justify-center rounded-md p-2 bg-[hsl(var(--sidebar-active))] text-white shadow-md md:hidden"
+          onClick={() => setOpenMobile(true)}
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+        <Sheet open={openMobile} onOpenChange={setOpenMobile}>
+          <SheetContent side="left" className="w-[18rem] p-0">
+            {SidebarContent}
+          </SheetContent>
+        </Sheet>
+      </>
+    );
+  }
+
+  return SidebarContent;
 }
