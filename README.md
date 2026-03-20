@@ -36,6 +36,10 @@ Deliverables
 - Working responsive Activity Hub with notifications and mentions.
 - Tests for core components and a short developer guide.
 
+Demo Attachment 
+![Screenshot_20-3-2026_124736_localhost](https://github.com/user-attachments/assets/bec2f56f-caa0-4977-930b-b55744e82118)
+![Screenshot_20-3-2026_12476_localhost](https://github.com/user-attachments/assets/351c9a55-5454-48aa-8c5b-ff814a9008fb)
+
 Contact
 
 - Open an issue or PR to get feedback and mentor review.
