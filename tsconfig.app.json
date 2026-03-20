@@ -7,7 +7,7 @@
       "ES2020",
       "DOM",
       "DOM.Iterable"
-    ],
+    ], //..
     "module": "ESNext",
     "moduleDetection": "force",
     "moduleResolution": "bundler",
